@@ -58,7 +58,7 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="${appIcon}"
-        android:label="Edge Gallery"
+        android:label="Ldiga MAI"
         android:roundIcon="${appIcon}"
         android:supportsRtl="true"
         android:theme="@style/Theme.Gallery"
@@ -187,7 +187,7 @@
             android:exported="false"
             android:launchMode="singleTop"
             android:requiredDisplayCategory="android.hardware.display.category.XR_PROJECTED"
-            android:taskAffinity="com.google.ai.edge.gallery.glasses"
+            android:taskAffinity="${applicationId}.glasses"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
         <uses-native-library android:name="libvndksupport.so" android:required="false"/>
         <uses-native-library android:name="libOpenCL.so" android:required="false"/>
