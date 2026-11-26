@@ -1,0 +1,40 @@
+# Independent, manual test builds. No publishing or paid Linux runners.
+workflows:
+  ldiga-mai-android:
+    name: Ldiga MAI - test APK
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    environment:
+      java: 21
+    scripts:
+      - name: Prepare Android SDK
+        script: |
+          set -euo pipefail
+          SDK_ROOT="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-}}"
+          test -n "$SDK_ROOT"
+          export ANDROID_HOME="$SDK_ROOT" ANDROID_SDK_ROOT="$SDK_ROOT"
+          cd "$CM_BUILD_DIR/Android/src"
+          printf 'sdk.dir=%s\n' "$SDK_ROOT" > local.properties
+          java -version
+          if [ ! -f "$SDK_ROOT/platforms/android-37.0/android.jar" ]; then
+            SDKMANAGER="$SDK_ROOT/cmdline-tools/latest/bin/sdkmanager"
+            if [ ! -x "$SDKMANAGER" ]; then
+              SDKMANAGER="$(command -v sdkmanager)"
+            fi
+            "$SDKMANAGER" --sdk_root="$SDK_ROOT" "platforms;android-37.0"
+          fi
+          test -f "$SDK_ROOT/platforms/android-37.0/android.jar"
+      - name: Build signed test APK
+        script: |
+          set -euo pipefail
+          cd "$CM_BUILD_DIR/Android/src"
+          bash ./gradlew --no-daemon --max-workers=2 :app:assembleRelease
+          shopt -s nullglob
+          apks=(app/build/outputs/apk/release/*.apk)
+          test "${#apks[@]}" -gt 0
+          for apk in "${apks[@]}"; do
+            test -s "$apk"
+            shasum -a 256 "$apk"
+          done
+    artifacts:
+      - Android/src/app/build/outputs/apk/release/*.apk
