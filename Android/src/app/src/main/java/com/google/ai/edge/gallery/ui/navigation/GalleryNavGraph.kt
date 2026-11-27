@@ -168,7 +168,6 @@ fun GalleryNavHost(
 ) {
   val lifecycleOwner = LocalLifecycleOwner.current
   var pickedTask by remember { mutableStateOf<Task?>(null) }
-  var enableHomeScreenAnimation by remember { mutableStateOf(true) }
   var enableModelListAnimation by remember { mutableStateOf(true) }
   // The section the model selection screen expands when a task sends the user back to it.
   var modelSelectionTargetToExpand by remember { mutableStateOf<ModelSelectionTarget?>(null) }
@@ -211,7 +210,6 @@ fun GalleryNavHost(
       HomeScreen(
         modelManagerViewModel = modelManagerViewModel,
         tosViewModel = tosViewModel,
-        enableAnimation = enableHomeScreenAnimation,
         navigateToTaskScreen = { task ->
           pickedTask = task
           enableModelListAnimation = true
@@ -256,7 +254,6 @@ fun GalleryNavHost(
             modelManagerViewModel = modelManagerViewModel,
             enableAnimation = enableModelListAnimation,
             navigateUp = {
-              enableHomeScreenAnimation = false
               navController.navigateUp()
             },
             onLaunch = { model ->
@@ -283,7 +280,6 @@ fun GalleryNavHost(
               navController.navigate("$ROUTE_BENCHMARK/${model.name}")
             },
             navigateUp = {
-              enableHomeScreenAnimation = false
               navController.navigateUp()
             },
           )
@@ -496,7 +492,6 @@ fun GalleryNavHost(
         initialOpenTryIt = openTryIt,
         supplementaryModelsViewModel = hiltViewModel(),
         navigateUp = {
-          enableHomeScreenAnimation = false
           navController.navigateUp()
         },
         onModelSelected = { task, model ->

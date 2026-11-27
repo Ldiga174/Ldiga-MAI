@@ -2351,7 +2351,9 @@ constructor(
           var version = BuildConfig.VERSION_NAME.replace(".", "_")
           val url = getAllowlistUrl(version)
           Log.d(TAG, "Loading model allowlist from internet. Url: $url")
-          val data = getJsonResponse<ModelAllowlist>(url = url)
+          val data =
+            if (networkStateProvider.isConnected()) getJsonResponse<ModelAllowlist>(url = url)
+            else null
           modelAllowlist = data?.jsonObj
 
           if (modelAllowlist == null) {
@@ -2363,10 +2365,9 @@ constructor(
           }
         }
 
-        if (modelAllowlist == null) {
-          _uiState.update { it.copy(loadingModelAllowlistError = "Failed to load model list") }
-          return@launch
-        }
+        val catalogUnavailable = modelAllowlist == null
+        // Imported models and built-in task navigation remain available on first offline launch.
+        modelAllowlist = modelAllowlist ?: ModelAllowlist()
 
         Log.d(TAG, "Allowlist: $modelAllowlist")
 
@@ -2473,6 +2474,8 @@ constructor(
             )
             .copy(
               loadingModelAllowlist = false,
+              loadingModelAllowlistError =
+                if (catalogUnavailable) "Failed to load model list" else "",
               tasks = curTasks,
               tasksByCategory = groupTasksByCategory(),
               showLocalTestAllowlistDialog = loadedFromTestAllowlist,
@@ -2634,7 +2637,6 @@ constructor(
     }
 
     val textInputHistory = dataStoreRepository.readTextInputHistory()
-    Log.d(TAG, "text input history: $textInputHistory")
 
     // Choices saved in this session take precedence, as their writes may still be pending.
     val lastMainModelByTaskId = savedLastMainModels + _uiState.value.lastMainModelByTaskId

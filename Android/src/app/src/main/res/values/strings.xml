@@ -2004,4 +2004,16 @@
   </plurals>
 
   <string name="model_import_default_display_name" translatable="true" description="Default display name pre-filled in the editable model name field of the import dialog when a model filename cannot be determined from the selected file or URL. [CHAR_LIMIT=40]">Imported model</string>
+  <string name="ldiga_home_title">Your local AI assistant</string>
+  <string name="ldiga_home_description">Chat with a model running on your device. Connected tools may use the internet.</string>
+  <string name="ldiga_open_chat">Open chat</string>
+  <string name="ldiga_local_models">Local models</string>
+  <string name="ldiga_model_available">A local language model is ready to select.</string>
+  <string name="ldiga_loading_models">Loading the model catalog…</string>
+  <string name="ldiga_import_hint">Import a compatible model file or download one from the catalog.</string>
+  <string name="ldiga_manage_models">Manage models</string>
+  <string name="ldiga_catalog_unavailable">The online catalog is unavailable. You can still import a model file.</string>
+  <string name="ldiga_settings">Settings</string>
+  <string name="ldiga_notifications">Notifications</string>
+  <string name="ldiga_terms_body">Each model has its own license. Model downloads and connected tools can contact external services. Review the terms of each model and service you choose to use.</string>
 </resources>

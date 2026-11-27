@@ -54,7 +54,7 @@ fun AppTosDialog(onTosAccepted: () -> Unit, viewingMode: Boolean = false) {
         // Title.
         val titleColor = MaterialTheme.colorScheme.onSurface
         BasicText(
-          stringResource(R.string.tos_dialog_title_app),
+          stringResource(R.string.app_name),
           modifier = Modifier.fillMaxWidth().padding(top = 24.dp),
           style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Medium),
           color = { titleColor },
@@ -66,7 +66,7 @@ fun AppTosDialog(onTosAccepted: () -> Unit, viewingMode: Boolean = false) {
         Column(modifier = Modifier.verticalScroll(rememberScrollState()).weight(1f, fill = false)) {
           // Short content.
           MarkdownText(
-            stringResource(R.string.tos_dialog_body),
+            stringResource(R.string.ldiga_terms_body),
             smallFontSize = true,
             textColor = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(top = 16.dp),

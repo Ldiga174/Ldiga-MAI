@@ -13,6 +13,8 @@ Base: Google AI Edge Gallery (Apache-2.0), existing application ID com.ldiga.mai
 
 ## This baseline
 
+LDiga AI opens to a dedicated screen with one entry point for the assistant chat and a separate local model manager. With no network or cached catalog, the app still loads its built-in tasks and previously imported models. Compatible model files can be imported from the model manager in this state.
+
 Branding, disable Android automatic cloud backup and Firebase analytics collection by default, disable Firebase messaging auto-init, redact selected JS/MCP Logcat statements, require an active session for tool execution and ask before each external MCP invocation. This is not a complete privacy or security audit; UI/history may still contain tool data. Existing Android app model files are sandboxed; download or import supported models into LDiga AI, rather than accessing another app's private data.
 
 ## Build and verification

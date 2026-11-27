@@ -371,7 +371,7 @@ fun AgentChatScreen(
                           continuation.resume(Unit)
                         }
                       }
-                      Log.d(TAG, "Loading url: ${action.url}")
+                      Log.d(TAG, "Loading skill page")
                       activeWebView.loadUrl(action.url)
                     }
 
@@ -390,7 +390,7 @@ fun AgentChatScreen(
                       Log.d(TAG, "Start to run js")
                       val invocationToken = UUID.randomUUID().toString()
                       chatViewJavascriptInterface.bindInvocation(invocationToken) { result ->
-                        Log.d(TAG, "Got result:\n$result")
+                        Log.d(TAG, "Received skill result")
                         if (!action.result.complete(result)) {
                           return@bindInvocation
                         }
