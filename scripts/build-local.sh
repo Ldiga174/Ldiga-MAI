@@ -6,13 +6,20 @@ root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 project="$root/Android/src"
 sdk="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-$HOME/Android/Sdk}}"
 java="java"
-if [[ -n "${JAVA_HOME:-}" ]]; then java="$JAVA_HOME/bin/java"; fi
+javac="javac"
+if [[ -n "${JAVA_HOME:-}" ]]; then
+  java="$JAVA_HOME/bin/java"
+  javac="$JAVA_HOME/bin/javac"
+fi
 fail() { printf 'ERROR: %s\n' "$*" >&2; exit 1; }
 
 [[ -f "$project/gradlew" ]] || fail "Android Gradle wrapper not found: $project/gradlew"
 command -v "$java" >/dev/null || fail "Install JDK 21 and set JAVA_HOME."
 version="$("$java" -version 2>&1)"
 [[ "$version" =~ version\ \"21([.\"-]) ]] || fail "JDK 21 is required: $version"
+command -v "$javac" >/dev/null || fail "JDK 21 with javac is required. Set JAVA_HOME to the JDK directory."
+compiler_version="$("$javac" -version 2>&1)"
+[[ "$compiler_version" =~ (^|$'\n')javac\ 21([.\ -]|$) ]] || fail "JDK 21 is required: $compiler_version"
 [[ -d "$sdk" ]] || fail "Install Android SDK Command-line Tools and set ANDROID_HOME."
 export ANDROID_HOME="$sdk" ANDROID_SDK_ROOT="$sdk"
 

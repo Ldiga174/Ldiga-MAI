@@ -17,4 +17,21 @@ Branding, disable Android automatic cloud backup and Firebase analytics collecti
 
 ## Build and verification
 
-Existing Gradle project: Android/src. Java 21 and Android SDK platform 37.0 are required by the current configuration. Build test APK using ./gradlew :app:assembleRelease; existing release build uses a debug signing key and is for testing only. Do not use for real funds. Verify offline chat, model import, permissions, and app identity on device before adding wallet functionality. Previous GitHub Actions runs failed before executing steps; resolve runner availability or use the existing manual Codemagic configuration. No production release or financial operations are authorized by this baseline.
+The Gradle project lives in `Android/src`. Install a full JDK 21 (including `javac`) and the Android SDK Command-line Tools. From the repository root, build with the local script:
+
+```bash
+export JAVA_HOME=/path/to/jdk-21
+export ANDROID_HOME=/path/to/android-sdk
+bash scripts/build-local.sh
+```
+
+The script installs Android SDK Platform 37.0 if needed, runs `:app:assembleRelease` and prints the APK path and SHA-256. Gradle may download additional SDK packages on the first build. The APK uses a debug signing key and is for testing only. Do not use it for real funds.
+
+With Android SDK Platform-Tools installed and an Android 12+ test device or emulator connected, install and launch the APK:
+
+```bash
+"$ANDROID_HOME/platform-tools/adb" install -r Android/src/app/build/outputs/apk/release/app-release.apk
+"$ANDROID_HOME/platform-tools/adb" shell am start -W -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -p com.ldiga.mai
+```
+
+Verify app identity, model import, permissions and offline chat with a compatible local model on a physical phone before adding wallet functionality. Previous GitHub Actions runs failed before executing steps. The local build can run independently of hosted runners. The existing manual Codemagic configuration is also available. No production release or financial operations are authorized by this baseline.
