@@ -58,9 +58,9 @@
   <string name="aichat_initializing_title" translatable="true" description="Status indicator when initializing model. [CHAR_LIMIT=31]">Initializing model</string>
   <string name="aichat_initializing_content" translatable="true" description="Loading message shown while a chat or translator session is initializing. [CHAR_LIMIT=110]">Sit tight, this can take up to 1 minute</string>
   <string name="app_intro" translatable="true" description="Introduction text shown on the home screen. [CHAR_LIMIT=90]">Explore a world of amazing on-device models from</string>
-  <string name="app_name" translatable="false">Google AI Edge Gallery</string>
-  <string name="app_name_first_part" translatable="false">Google AI</string>
-  <string name="app_name_second_part" translatable="false">Edge Gallery</string>
+  <string name="app_name" translatable="false">LDiga AI</string>
+  <string name="app_name_first_part" translatable="false">LDiga</string>
+  <string name="app_name_second_part" translatable="false">AI</string>
   <string name="askimage_emptystate_title" translatable="false">Ask Image</string>
   <plurals name="askimage_emptystate_content" translatable="true" description="Instructions shown when starting a chat with image input, explaining how to add images. %d is the maximum number of images per chat for the selected model. [CHAR_LIMIT=203]">
     <item quantity="one">To get started, tap the + below to add an image (max %d image per chat) and type a prompt to ask a question about it!</item>

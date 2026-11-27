@@ -57,11 +57,9 @@ class RunJsTool(
     data: String,
   ): Map<String, Any> {
     return runBlocking(Dispatchers.Default) {
-      Log.d(
-        TAG,
-        "runJS tool called with:" +
-          "\n- skillName: ${skillName}\n- scriptName: ${scriptName}\n- data: ${data}\n",
-      )
+      val actionChannel = executionContext?.actionChannel
+        ?: return@runBlocking mapOf("error" to "No active user session", "status" to "failed")
+      Log.d(TAG, "JS tool requested")
 
       val skill = skillsProvider.loadSkill(skillName)
 
@@ -101,7 +99,7 @@ class RunJsTool(
               key = getSkillSecretKey(skillName = skillName),
               value = secret,
             )
-            Log.d(TAG, "Got Secret from ask info dialog: ${secret.substring(0, 3)}")
+            Log.d(TAG, "Skill credential supplied")
           } else {
             Log.d(TAG, "The ask info dialog got cancelled. No secret.")
           }
@@ -116,7 +114,7 @@ class RunJsTool(
           ?: return@runBlocking mapOf(
             "result" to "JS Skill URL not set properly or skill not found"
           )
-      Log.d(TAG, "Calling JS script.\n- url: $url\n- data: $data")
+      Log.d(TAG, "Calling JS script")
 
       // Update progress.
       executionContext
@@ -133,7 +131,7 @@ class RunJsTool(
 
       // Actually run it and wait for the result.
       val action = CallJsToolAction(url = url, data = data.trim().ifEmpty { "{}" }, secret = secret)
-      executionContext?.actionChannel?.send(action)
+      actionChannel.send(action)
       val result = action.result.await()
 
       // Try to parse result to CallJsSkillResult.
@@ -166,10 +164,10 @@ class RunJsTool(
         if (webview != null) {
           Log.d(TAG, "Got an webview response.")
           val webviewUrl = skill.getJsSkillWebviewUrl(url = webview.url ?: "")
-          Log.d(TAG, "Webview url: $webviewUrl")
+          Log.d(TAG, "Skill webview prepared")
           resultWebviewToShow = webview.copy(url = webviewUrl)
         }
-        Log.d(TAG, "Result: ${resultJson.result}")
+        Log.d(TAG, "JS tool completed")
         mapOf("result" to (resultJson.result ?: ""), "status" to "succeeded")
       }
     }
